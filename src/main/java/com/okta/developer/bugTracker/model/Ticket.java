@@ -22,7 +22,8 @@ public class Ticket {
     private String title;
     private String description;
     @Builder.Default
-    private Enum<Level> priority = Level.LOW;
+    @Enumerated(EnumType.STRING)
+    private Level priority = Level.LOW;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
