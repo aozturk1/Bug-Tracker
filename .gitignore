@@ -31,10 +31,8 @@ out/
 
 # Gatsby files
 .cache/
-public/
 
 # Static site generators
-public/
 output/
 
 # Storybook
