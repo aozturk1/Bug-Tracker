@@ -17,10 +17,14 @@ public class Ticket {
     @Id
     @GeneratedValue
     private Long id;
-    private Instant date;
+
+    @Builder.Default
+    private Instant date = Instant.now();
+
     @NonNull
     private String title;
     private String description;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Level priority = Level.LOW;
