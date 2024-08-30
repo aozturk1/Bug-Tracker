@@ -21,6 +21,9 @@ public class User {
     private String name;
     private String email;
 
+    @Enumerated
+    private Role role;
+
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Ticket> ticket;
 

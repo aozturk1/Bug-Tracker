@@ -29,6 +29,13 @@ public class TicketController {
         return ticketRepository.findAll();
     }
 
+    @GetMapping("/ticket/{id}")
+    public ResponseEntity<?> getTicket(@PathVariable Long id) {
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        return ticket.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping("/ticket")
     public ResponseEntity<Ticket> createTicket(@Valid @RequestBody Ticket ticket) throws URISyntaxException{
         log.info("Request to create ticket: {}", ticket);
