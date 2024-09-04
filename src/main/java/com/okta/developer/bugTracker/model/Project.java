@@ -24,6 +24,12 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Ticket> ticket;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Team team;
+    // Project has many users, and users have many projects
+    @ManyToMany
+    @JoinTable(
+            name = "project_user",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
 }

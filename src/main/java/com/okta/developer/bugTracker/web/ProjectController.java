@@ -2,8 +2,6 @@ package com.okta.developer.bugTracker.web;
 
 import com.okta.developer.bugTracker.model.Project;
 import com.okta.developer.bugTracker.model.ProjectRepository;
-import com.okta.developer.bugTracker.model.Ticket;
-import com.okta.developer.bugTracker.model.TicketRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public Collection<Project> tickets() {
+    public Collection<Project> projects() {
         return projectRepository.findAll();
     }
 

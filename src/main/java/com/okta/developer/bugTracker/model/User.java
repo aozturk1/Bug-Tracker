@@ -2,9 +2,9 @@ package com.okta.developer.bugTracker.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.util.Set;
 
@@ -21,12 +21,13 @@ public class User {
     private String name;
     private String email;
 
-    @Enumerated
-    private Role role;
+    //@Builder.Default
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.User;
 
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Ticket> ticket;
 
-    @ManyToOne
-    private Team team;
+    @ManyToMany(mappedBy = "users")
+    private Set<Project> projects;
 }

@@ -10,24 +10,27 @@ import java.time.Instant;
 public class Initializer implements CommandLineRunner {
 
     private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
 
-    public Initializer(TicketRepository ticketRepository) {
+    public Initializer(TicketRepository ticketRepository, UserRepository userRepository) {
         this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-//        // Create Users
-//        User user1 = new User("John", "john.doe@example.com");
-//        User user2 = new User("Jane", "jane.smith@example.com");
-//        userRepository.save(user1);
-//        userRepository.save(user2);
-//
-//        // Create Teams
-//        Team team1 = new Team("Alpha Team");
-//        Team team2 = new Team("Beta Team");
-//        teamRepository.save(team1);
-//        teamRepository.save(team2);
+        // Create Users
+        User user1 = new User(null, "John Doe", "john.doe@example.com", Role.Admin, null, null);
+        User user2 = new User(null, "Jane Smith", "jane.smith@example.com", Role.User, null, null);
+        User user3 = new User(null, "Mike Johnson", "mike.johnson@example.com", Role.User, null, null);
+        User user4 = new User(null, "Alice Brown", "alice.brown@example.com", Role.User, null, null);
+        User user5 = new User(null, "Bob White", "bob.white@example.com", Role.User, null, null);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
+        userRepository.save(user5);
+
 //
 //        // Create Projects
 //        Project project1 = new Project("Bug Tracker", team1);

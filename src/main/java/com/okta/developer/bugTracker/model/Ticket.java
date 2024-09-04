@@ -27,6 +27,10 @@ public class Ticket {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
+    private Status status = Status.TODO;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private Level priority = Level.LOW;
 
     @ManyToOne
