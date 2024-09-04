@@ -8,24 +8,39 @@ const TicketEdit = () => {
         title: '',
         description: '',
         //    status: '',
-        priority: ''
+        priority: '',
+        assignedUser: null,
     };
 
     const [ticket, setTicket] = useState(initialFormState);
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
+        // Fetch ticket if editing an existing ticket
         if (id !== 'new') {
             fetch(`/api/ticket/${id}`)
                 .then(response => response.json())
                 .then(data => setTicket(data));
         }
+
+        // Fetch the list of users
+        fetch('/api/users')
+            .then(response => response.json())
+            .then(data => setUsers(data));
     }, [id, setTicket]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setTicket({ ...ticket, [name]: value });
+
+        if (name === 'assignedUserId') {
+            // Find the selected user by ID and set it as assignedUser
+            const selectedUser = users.find(user => user.id === parseInt(value));
+            setTicket({ ...ticket, assignedUser: selectedUser });
+        } else {
+            setTicket({ ...ticket, [name]: value });
+        }
     }
 
     const handleSubmit = async (event) => {
@@ -73,6 +88,17 @@ const TicketEdit = () => {
                             <option value="LOW">Low</option>
                             <option value="MEDIUM">Medium</option>
                             <option value="HIGH">High</option>
+                        </Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="assignedUserId">Assign to User</Label>
+                        <Input type="select" name="assignedUserId" id="assignedUserId" value={ticket.assignedUser ? ticket.assignedUser.id : ''} onChange={handleChange}>
+                            <option value="">Select User</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.name}
+                                </option>
+                            ))}
                         </Input>
                     </FormGroup>
                     <FormGroup>

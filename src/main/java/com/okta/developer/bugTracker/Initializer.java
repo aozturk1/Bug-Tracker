@@ -46,5 +46,45 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.LOW)
                 .build();
         ticketRepository.save(ticket);
+
+        Ticket ticket1 = Ticket.builder()
+                .title("Login Issue")
+                .date(Instant.now())
+                .description("Unable to login with correct credentials")
+                .priority(Level.HIGH)
+                .build();
+        ticketRepository.save(ticket1);
+
+        Ticket ticket2 = Ticket.builder()
+                .title("Slow Page Load")
+                .date(Instant.now())
+                .description("Homepage takes too long to load")
+                .priority(Level.MEDIUM)
+                .build();
+        ticketRepository.save(ticket2);
+
+        Ticket ticket3 = Ticket.builder()
+                .title("Database Connection Error")
+                .date(Instant.now())
+                .description("Failed to connect to the database")
+                .priority(Level.HIGH)
+                .build();
+        ticketRepository.save(ticket3);
+
+        Ticket ticket4 = Ticket.builder()
+                .title("UI Bug in Dashboard")
+                .date(Instant.now())
+                .description("Misalignment of buttons on the dashboard")
+                .priority(Level.LOW)
+                .build();
+        ticketRepository.save(ticket4);
+
+        Ticket ticket5 = Ticket.builder()
+                .title("Security Vulnerability")
+                .date(Instant.now())
+                .description("Potential security issue in the authentication flow")
+                .priority(Level.HIGH)
+                .build();
+        ticketRepository.save(ticket5);
     }
 }

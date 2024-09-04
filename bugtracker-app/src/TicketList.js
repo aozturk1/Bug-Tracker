@@ -36,10 +36,15 @@
     return <p>Loading...</p>;
   }
 
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
   const ticketList = tickets.map(ticket => (
     <tr key={ticket.id}>
       <td>{ticket.title}</td>
-      <td>{ticket.date}</td>
+      <td>{ticket.date ? formatDate(ticket.date) : ''}</td>
       <td>{ticket.description}</td>
       <td>{ticket.priority}</td>
       <td>
@@ -50,6 +55,8 @@
       </td>
     </tr>
   ));
+
+
 
   return (
     <div>
