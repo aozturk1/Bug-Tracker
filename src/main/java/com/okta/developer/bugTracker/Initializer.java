@@ -5,16 +5,19 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Component
 public class Initializer implements CommandLineRunner {
 
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
 
-    public Initializer(TicketRepository ticketRepository, UserRepository userRepository) {
+    public Initializer(TicketRepository ticketRepository, UserRepository userRepository, ProjectRepository projectRepository) {
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
@@ -31,13 +34,6 @@ public class Initializer implements CommandLineRunner {
         userRepository.save(user4);
         userRepository.save(user5);
 
-//
-//        // Create Projects
-//        Project project1 = new Project("Bug Tracker", team1);
-//        Project project2 = new Project("Website Redesign", team2);
-//        projectRepository.save(project1);
-//        projectRepository.save(project2);
-//
         //Create Tickets
         Ticket ticket = Ticket.builder()
                 .title("404 Error")
@@ -46,7 +42,6 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.LOW)
                 .build();
         ticketRepository.save(ticket);
-
         Ticket ticket1 = Ticket.builder()
                 .title("Login Issue")
                 .date(Instant.now())
@@ -54,7 +49,6 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.HIGH)
                 .build();
         ticketRepository.save(ticket1);
-
         Ticket ticket2 = Ticket.builder()
                 .title("Slow Page Load")
                 .date(Instant.now())
@@ -62,7 +56,6 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.MEDIUM)
                 .build();
         ticketRepository.save(ticket2);
-
         Ticket ticket3 = Ticket.builder()
                 .title("Database Connection Error")
                 .date(Instant.now())
@@ -70,7 +63,6 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.HIGH)
                 .build();
         ticketRepository.save(ticket3);
-
         Ticket ticket4 = Ticket.builder()
                 .title("UI Bug in Dashboard")
                 .date(Instant.now())
@@ -78,7 +70,6 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.LOW)
                 .build();
         ticketRepository.save(ticket4);
-
         Ticket ticket5 = Ticket.builder()
                 .title("Security Vulnerability")
                 .date(Instant.now())
@@ -86,5 +77,14 @@ public class Initializer implements CommandLineRunner {
                 .priority(Level.HIGH)
                 .build();
         ticketRepository.save(ticket5);
+
+        // Create Projects
+        Project project1 = new Project(null, "Website Redesign", "Redesign the company website for a modern look and feel.", null, null);
+        //project1.setUsers(Set.of(user1, user2, user3));
+        projectRepository.save(project1);
+        Project project2 = new Project(null, "Mobile App Development", "Develop a new mobile app for the company's e-commerce platform.", null, null);
+        //project2.setUsers(Set.of(user2, user4, user5));
+        //project2.setTicket(Set.of(ticket1, ticket2));
+        projectRepository.save(project2);
     }
 }

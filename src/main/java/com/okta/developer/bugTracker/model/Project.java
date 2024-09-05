@@ -1,14 +1,15 @@
 package com.okta.developer.bugTracker.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
+//@RequiredArgsConstructor
 @Entity
 @Table(name = "projects")
 public class Project {
@@ -17,7 +18,7 @@ public class Project {
     @GeneratedValue
     private Long id;
 
-    @NonNull
+    @NotNull
     private String name;
     private String description;
 

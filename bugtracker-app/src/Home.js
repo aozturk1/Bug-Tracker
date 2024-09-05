@@ -10,6 +10,7 @@
        <AppNavbar/>
        <Container fluid>
          <Button color="link"><Link to="/tickets">Manage Tickets</Link></Button>
+         <Button color="link"><Link to="/projects">Manage Projects</Link></Button>
        </Container>
      </div>
    );
