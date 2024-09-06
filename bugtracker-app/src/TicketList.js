@@ -1,36 +1,49 @@
  import React, { useEffect, useState } from 'react';
- import { Button, ButtonGroup, Container, Table } from 'reactstrap';
+ import { Button, ButtonGroup, Container, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
  import AppNavbar from './AppNavbar';
  import { Link } from 'react-router-dom';
 
  const TicketList = () => {
-  const [sortType, setSortType] = useState('noone');
+  const [sortType, setSortType] = useState('newest');
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const pageSize = 10;
 
   useEffect(() => {
     setLoading(true);
 
-    fetch('api/tickets')
+    fetch(`/api/tickets/paged?page=${currentPage}&size=${pageSize}`)
       .then(response => response.json())
       .then(data => {
-        setTickets(data);
+        setTickets(data.content);
+        setTotalPages(data.totalPages);
         setLoading(false);
-      })
-  }, []);
+      });
+  }, [currentPage]);
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  }
 
   const remove = async (id) => {
-    await fetch(`/api/ticket/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
-      let updatedTickets = [...tickets].filter(i => i.id !== id);
-      setTickets(updatedTickets);
-    });
-  }
+    const confirmed = window.confirm("Are you sure you want to delete the " + tickets.find(ticket => ticket.id === id).title + " ticket?");
+    if (confirmed) {
+      await fetch(`/api/ticket/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        let updatedTickets = [...tickets].filter(i => i.id !== id);
+        setTickets(updatedTickets);
+      });
+    }
+  };
+  
 
   const sortTickets = (tickets, sortType) => {
     if (sortType === 'assigned') {
@@ -71,8 +84,6 @@
     </tr>
   ));
 
-
-
   return (
     <div>
       <AppNavbar/>
@@ -103,6 +114,29 @@
             {ticketList}
           </tbody>
         </Table>
+
+        {/* Pagination */}
+        <Pagination aria-label="Page navigation example" className="d-flex justify-content-center">
+          <PaginationItem disabled={currentPage === 0}>
+            <PaginationLink first onClick={() => handlePageClick(0)} />
+          </PaginationItem>
+          <PaginationItem disabled={currentPage === 0}>
+            <PaginationLink previous onClick={() => handlePageClick(currentPage - 1)} />
+          </PaginationItem>
+          {[...Array(totalPages)].map((_, i) => (
+            <PaginationItem active={i === currentPage} key={i}>
+              <PaginationLink onClick={() => handlePageClick(i)}>
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem disabled={currentPage === totalPages - 1}>
+            <PaginationLink next onClick={() => handlePageClick(currentPage + 1)} />
+          </PaginationItem>
+          <PaginationItem disabled={currentPage === totalPages - 1}>
+            <PaginationLink last onClick={() => handlePageClick(totalPages - 1)} />
+          </PaginationItem>
+        </Pagination>
       </Container>
     </div>
   );
