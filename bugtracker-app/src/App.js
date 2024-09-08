@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" index element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path='/tickets' exact={true} element={<TicketList />} />
         <Route path='/tickets/:id' element={<TicketEdit />} />
         <Route path='/projects' exact={true} element={<ProjectList />} />
