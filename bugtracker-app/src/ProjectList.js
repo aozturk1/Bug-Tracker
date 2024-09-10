@@ -40,7 +40,7 @@ const ProjectList = () => {
       <td>{project.description}</td>
       <td>
         <ButtonGroup>
-          <Button size="sm" color="primary" tag={Link} to={"/projects/" + project.id}>Edit</Button>
+          <Button size="sm" color="primary" tag={Link} to={`/projects/${project.id}`}>Edit</Button>
           <Button size="sm" color="danger" onClick={() => remove(project.id)}>Delete</Button>
         </ButtonGroup>
       </td>
@@ -52,7 +52,7 @@ const ProjectList = () => {
       <AppNavbar />
       <Container fluid>
         <div className="float-end">
-          <Button color="success" tag={Link} to="/project/new">Add Project</Button>
+          <Button color="success" tag={Link} to="/projects/new">Add Project</Button>
         </div>
         <h3>Project List</h3>
         <Table className="mt-4">

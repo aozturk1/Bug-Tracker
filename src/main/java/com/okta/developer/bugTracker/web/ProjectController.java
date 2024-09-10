@@ -36,6 +36,9 @@ public class ProjectController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    //possible because get mapping with same number of parameters
+    //also could be anything else compare it to Ticket get mapping
+
     @GetMapping("/project/{name}")
     public ResponseEntity<?> getProjectByName(@PathVariable String name) {
         Optional<Project> project = Optional.ofNullable(projectRepository.findByName(name));

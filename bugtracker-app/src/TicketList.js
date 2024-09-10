@@ -1,14 +1,15 @@
- import React, { useEffect, useState } from 'react';
- import { Button, ButtonGroup, Container, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
- import AppNavbar from './AppNavbar';
- import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Container, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Input } from 'reactstrap';
+import AppNavbar from './AppNavbar';
+import { Link } from 'react-router-dom';
 
- const TicketList = () => {
+const TicketList = () => {
   const [sortType, setSortType] = useState('newest');
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const pageSize = 10;
 
@@ -43,7 +44,7 @@
       });
     }
   };
-  
+
 
   const sortTickets = (tickets, sortType) => {
     if (sortType === 'assigned') {
@@ -58,7 +59,18 @@
     return tickets;
   };
 
-  const sortedTickets = sortTickets([...tickets], sortType);
+  // Filtering based on search term
+  const filterTickets = (tickets, searchTerm) => {
+    if (!searchTerm) return tickets;
+    return tickets.filter(ticket =>
+      ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ticket.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  // Combine sorting and filtering
+  const sortedAndFilteredTickets = filterTickets(sortTickets([...tickets], sortType), searchTerm);
+
 
   if (loading) {
     return <p>Loading...</p>;
@@ -69,7 +81,7 @@
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   };
 
-  const ticketList = sortedTickets.map(ticket => (
+  const ticketList = sortedAndFilteredTickets.map(ticket => (
     <tr key={ticket.id}>
       <td>{ticket.title}</td>
       <td>{ticket.date ? formatDate(ticket.date) : ''}</td>
@@ -86,7 +98,7 @@
 
   return (
     <div>
-      <AppNavbar/>
+      <AppNavbar />
       <Container fluid>
         <div className="float-end">
           <Button color="success" tag={Link} to="/tickets/new">Add Ticket</Button>
@@ -99,7 +111,18 @@
             <Button onClick={() => setSortType('newest')}>Newest</Button>
             <Button onClick={() => setSortType('oldest')}>Oldest</Button>
           </ButtonGroup>
+
+          {/* Search Box */}
+          <FormGroup className="float-end" style={{ width: '25%' }}>
+            <Input
+              type="text"
+              placeholder="Search by title or description..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+          </FormGroup>
         </div>
+
         <Table className="mt-4">
           <thead>
             <tr>
@@ -140,6 +163,6 @@
       </Container>
     </div>
   );
- };
+};
 
- export default TicketList;
+export default TicketList;

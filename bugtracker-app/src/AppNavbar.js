@@ -11,7 +11,7 @@ const AppNavbar = () => {
       <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
       <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
       <Collapse isOpen={isOpen} navbar>
-        <Nav className="mr-auto" navbar>
+        <Nav className="mr-auto" style={{ width: "100%" }} navbar>
           <NavItem>
             <NavLink tag={Link} to="/tickets">Manage Tickets</NavLink>
           </NavItem>
